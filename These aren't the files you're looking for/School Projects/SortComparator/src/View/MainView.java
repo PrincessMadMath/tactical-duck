@@ -49,6 +49,7 @@ public class MainView extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         SleepTimeSpinner = new javax.swing.JSpinner();
+        valueOption = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,6 +93,11 @@ public class MainView extends javax.swing.JFrame {
         });
 
         MaxValueSpinner.setValue(20);
+        MaxValueSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                MaxValueSpinnerStateChanged(evt);
+            }
+        });
 
         jLabel1.setText("Length");
 
@@ -100,6 +106,13 @@ public class MainView extends javax.swing.JFrame {
         jLabel3.setText("SleepTime(ms)");
 
         SleepTimeSpinner.setValue(10);
+
+        valueOption.setText("Many Same Value");
+        valueOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                valueOptionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -129,6 +142,8 @@ public class MainView extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(SleepTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(valueOption)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -137,13 +152,14 @@ public class MainView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(sortView1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(LengthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel3)
-                    .addComponent(SleepTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
+                    .addComponent(SleepTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(valueOption))
+                .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(InitializeButton)
                     .addComponent(StartSortButton)
@@ -155,6 +171,10 @@ public class MainView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void StartSortButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StartSortButtonMouseClicked
+        _control.StartSort();
+    }//GEN-LAST:event_StartSortButtonMouseClicked
+
     private void InitializeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InitializeButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_InitializeButtonActionPerformed
@@ -163,13 +183,17 @@ public class MainView extends javax.swing.JFrame {
         Initialize();
     }//GEN-LAST:event_InitializeButtonMouseClicked
 
-    private void StartSortButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StartSortButtonMouseClicked
-        _control.StartSort();
-    }//GEN-LAST:event_StartSortButtonMouseClicked
-
     private void LengthSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_LengthSpinnerStateChanged
         Initialize();
     }//GEN-LAST:event_LengthSpinnerStateChanged
+
+    private void MaxValueSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_MaxValueSpinnerStateChanged
+        Initialize();
+    }//GEN-LAST:event_MaxValueSpinnerStateChanged
+
+    private void valueOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valueOptionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_valueOptionActionPerformed
 
     private void Initialize()
     {
@@ -216,5 +240,6 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     public View.sortView sortView1;
+    private javax.swing.JCheckBox valueOption;
     // End of variables declaration//GEN-END:variables
 }

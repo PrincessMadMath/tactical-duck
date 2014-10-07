@@ -65,7 +65,7 @@ public class sortView extends javax.swing.JPanel implements SortListener{
     @Override
     public void UpdateArray() {
         System.out.println("UpdateArray");
-        this.repaint(1);
+        this.paintImmediately(0,0, this.getWidth(), this.getHeight());
     }
     
 

@@ -24,6 +24,7 @@ public class ObservableArray implements IObservable {
     public Double[] Tab;
     public int length;
     
+    public int _sleepTime;
 
     private ArrayList<SortListener> subscribers = new ArrayList<SortListener>();
 
@@ -98,17 +99,18 @@ public class ObservableArray implements IObservable {
 
     @Override
     public void notifyListner() {
+        
+        for (SortListener sl : subscribers) {
+            sl.UpdateArray();
+        }
 
+        
         try {
-            TimeUnit.MILLISECONDS.sleep(1000);
+            TimeUnit.MILLISECONDS.sleep(_sleepTime);
         } catch (InterruptedException ex) {
             Logger.getLogger(ObservableArray.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-                for (SortListener sl : subscribers) {
-            sl.UpdateArray();
-        }
-
     }
 
     public Color getColor(int index) {
@@ -122,4 +124,10 @@ public class ObservableArray implements IObservable {
             return Color.BLACK;
         }
     }
+
+    public void setSleepTime(int SleepTime) {
+        this._sleepTime = SleepTime;
+    }
+    
+    
 }
