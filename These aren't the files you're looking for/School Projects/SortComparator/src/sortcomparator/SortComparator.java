@@ -5,17 +5,45 @@
  */
 package sortcomparator;
 
+import Interface.SortListener;
+import SortAlgorithm.MergeSort;
+import View.MainView;
+
 /**
  *
  * @author Mathieu
  */
 public class SortComparator {
+    
+    ObservableArray _tab;
+    SortListener listener;
+    
+    int _arrayLenght = 100;
+    double _maxValue = 50.0; 
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public SortComparator(MainView view)
+    {
+        listener = view.sortView1;
+        _tab = new ObservableArray();
+
+        _tab.subsribe(listener);
+    }
+    
+  
+    public void InitializeArray(int length, double maxValue)
+    {
+        _tab.Randomize(10, 50);
+    }
+    
+    public void setSleepTime(int miliSeconds)
+    {
+        //_tab.setSleepTime(miliSeconds);
+    }
+    
+    public void StartSort()
+    {
+        MergeSort.Sort(_tab, 0, _tab.Tab.length-1);
+        //InsertionSort.Sort(tab);
     }
     
 }

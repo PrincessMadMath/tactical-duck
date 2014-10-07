@@ -5,6 +5,8 @@
  */
 package sortcomparator;
 
+import Interface.SortListener;
+import Interface.IObservable;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class ObservableArray implements IObservable {
     public Double[] Tab;
     public int length;
     
+
     private ArrayList<SortListener> subscribers = new ArrayList<SortListener>();
 
     int lastExchangeA, lastExchangeB;
@@ -32,7 +35,11 @@ public class ObservableArray implements IObservable {
         Randomize(arraySize, maxRandom);
     }
 
-    private void Randomize(int arraySize, int maxRandom) {
+    public ObservableArray() {
+    }
+
+    public void Randomize(int arraySize, double maxRandom) 
+    {
         Random rand = new Random();
 
         Tab = new Double[arraySize];
@@ -40,6 +47,10 @@ public class ObservableArray implements IObservable {
             Tab[i] = rand.nextDouble() * maxRandom;
         }
         length = Tab.length;
+
+        for (SortListener sl : subscribers) {
+            sl.SetObservableArray(this, maxRandom);
+        }
     }
 
     private void resetColor() {
@@ -74,7 +85,7 @@ public class ObservableArray implements IObservable {
     public void Place(int index, Double value) {
         resetColor();
         lastPlace = index;
-        
+
         Tab[index] = value;
 
         notifyListner();
@@ -87,16 +98,17 @@ public class ObservableArray implements IObservable {
 
     @Override
     public void notifyListner() {
-        Toolkit.getDefaultToolkit().beep();
-        for (SortListener sl : subscribers) {
-            sl.UpdateArray();
-        }
 
         try {
-            TimeUnit.MILLISECONDS.sleep(100);
+            TimeUnit.MILLISECONDS.sleep(1000);
         } catch (InterruptedException ex) {
             Logger.getLogger(ObservableArray.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+                for (SortListener sl : subscribers) {
+            sl.UpdateArray();
+        }
+
     }
 
     public Color getColor(int index) {
@@ -104,8 +116,7 @@ public class ObservableArray implements IObservable {
             return Color.RED;
         } else if (index == lastCompareA || index == lastCompareB) {
             return Color.GREEN;
-        } 
-        else if (index == lastPlace) {
+        } else if (index == lastPlace) {
             return Color.BLUE;
         } else {
             return Color.BLACK;

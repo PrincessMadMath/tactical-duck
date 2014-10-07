@@ -5,23 +5,45 @@
  */
 package sortcomparator;
 
+import View.MainView;
+import Interface.SortListener;
+import SortAlgorithm.MergeSort;
+
 /**
  *
  * @author Mathieu
  */
-public class Controller{
-
-    public static void main(String args[]) 
+public class Controller
+{
+    MainView _view;
+    SortComparator _model;
+    
+    public Controller()
+    {}
+    
+    public void SetMainView(MainView view)
     {
-        View test = new View();
-        SortListener listener = test.sortView1;
-        ObservableArray tab = new ObservableArray(100,50);
-        //TODO changer le set
-        listener.SetObservableArray(tab, 50.0);
-        tab.subsribe(listener);
-        test.setVisible(true);
-        //MergeSort.Sort(tab, 0, tab.Tab.length-1);
-        InsertionSort.Sort(tab);
+        _view = view;
     }
 
+    public void SetModel(SortComparator model) {
+        this._model = model;
+    }
+    
+    public void RandomizeArray(int length, double maxValue)
+    {
+        _model.InitializeArray(length, maxValue);
+    }
+    
+    public void SetSleepTime(int miliSeconds)
+    {
+        _model.setSleepTime(miliSeconds);
+    }
+    
+    public void StartSort()
+    {
+        _model.StartSort();
+    }
+
+    
 }
