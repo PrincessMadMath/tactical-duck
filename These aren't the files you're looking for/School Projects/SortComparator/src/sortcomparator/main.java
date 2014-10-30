@@ -7,7 +7,6 @@ package sortcomparator;
 
 import Interface.SortListener;
 import SortAlgorithm.MergeSort;
-import View.BackupView;
 import View.MainView;
 
 
@@ -20,12 +19,17 @@ public class main {
     public static void main(String args[]) {
          //Normal Code
         
-         Controller control = new Controller();
-         MainView panel = new MainView(control);
-         panel.setVisible(true);
-         SortComparator model = new SortComparator(panel);
-         control.SetMainView(panel);
-         control.SetModel(model);
+        Controller control = new Controller();
+        SortComparator model = new SortComparator();
+        
+        MainView panel = new MainView(control, model);
+        panel.setVisible(true);
+
+
+        model.addSubscriber(panel.sortView1);
+
+        control.SetMainView(panel);
+        control.SetModel(model);
          
 
         /*Backup Code*/
@@ -35,13 +39,13 @@ public class main {
         panel.setVisible(true);
         SortComparator model = new SortComparator(panel);
        // model.InitializeArray(40, 40);
-        // model.StartSort();
+        // model.setupSimulation();
         //control.SetMainView(panel);
         control.SetModel(model);
 
         // Problème quand le sort est déclenché par le bouton 
         control.RandomizeArray(50, 50);
-        //control.StartSort();
+        //control.setupSimulation();
         Thread t = new Thread(new TestThread(panel));
         t.start();
         */

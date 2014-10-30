@@ -40,9 +40,9 @@ public class Controller
         _model.setSleepTime(miliSeconds);
     }
     
-    public void StartSort()
+    public void StartSort(String sortName)
     {
-        _model.StartSort();
+        _model.setupSimulation(sortName);
     }
 
     

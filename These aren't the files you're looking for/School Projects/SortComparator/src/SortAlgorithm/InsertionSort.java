@@ -5,6 +5,7 @@
  */
 package SortAlgorithm;
 
+import Interface.ISort;
 import sortcomparator.ObservableArray;
 
 
@@ -13,16 +14,30 @@ import sortcomparator.ObservableArray;
  *
  * @author Mathieu
  */
-public class InsertionSort
+public class InsertionSort implements ISort
 {
-    public static void Sort(ObservableArray tab)
+    private static InsertionSort _singleton;
+    
+    public static InsertionSort Instance()
+    {
+        if(_singleton == null)
+        {
+            _singleton = new InsertionSort();
+        }
+        
+        return _singleton;
+    }
+    
+    
+    @Override
+    public void sort(ObservableArray tab)
     {
         // Search value for the i th position
         for(int i=0; i< tab.length; i++)
         {
             for(int j = i; j >= 1 && tab.Less(j,j-1); j--)
             {
-                tab.Exchange(j, j-1);
+                tab.exchange(j, j-1);
             }
         }
     }
@@ -31,9 +46,15 @@ public class InsertionSort
     {
         /*
        Integer[] tableau = {3,2,1,5,4,12, 51, 10, 45, 20, 54, 2, 10};
-       InsertionSort.Sort(tableau);
+       InsertionSort.sort(tableau);
        Show(tableau);
                 */
+    }
+
+    @Override
+    public String getName() 
+    {
+        return "InsertionSort";
     }
     
 }

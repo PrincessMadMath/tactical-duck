@@ -7,7 +7,9 @@ package View;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import javax.swing.JComboBox;
 import sortcomparator.Controller;
+import sortcomparator.SortComparator;
 
 /**
  *
@@ -18,19 +20,24 @@ public class MainView extends javax.swing.JFrame {
     /**
      * Creates new form View
      */
-    
     Controller _control;
-    
-    public MainView(Controller control) {
+    SortComparator _model;
+
+    public MainView(Controller control, SortComparator model) {
         _control = control;
+        _model = model;
         initComponents();
+        initList();
+
     }
-    
-    public void testDraw()
-    {
-        //sortView1.pa
+
+    public void initList() {
+        CBSortChoice1.removeAllItems();
+        for (String name : _model.getSortAlgorithmName()) {
+            CBSortChoice1.addItem(name);
+        }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,15 +48,17 @@ public class MainView extends javax.swing.JFrame {
     private void initComponents() {
 
         sortView1 = new View.sortView();
+        jPanel1 = new javax.swing.JPanel();
         InitializeButton = new javax.swing.JButton();
         StartSortButton = new javax.swing.JButton();
-        LengthSpinner = new javax.swing.JSpinner();
-        MaxValueSpinner = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
+        LengthSpinner = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
+        MaxValueSpinner = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
         SleepTimeSpinner = new javax.swing.JSpinner();
         valueOption = new javax.swing.JCheckBox();
+        CBSortChoice1 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,7 +68,7 @@ public class MainView extends javax.swing.JFrame {
         sortView1.setLayout(sortView1Layout);
         sortView1Layout.setHorizontalGroup(
             sortView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1488, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         sortView1Layout.setVerticalGroup(
             sortView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,6 +94,8 @@ public class MainView extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Length");
+
         LengthSpinner.setValue(20);
         LengthSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -92,16 +103,14 @@ public class MainView extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("MaxValue");
+
         MaxValueSpinner.setValue(20);
         MaxValueSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 MaxValueSpinnerStateChanged(evt);
             }
         });
-
-        jLabel1.setText("Length");
-
-        jLabel2.setText("MaxValue");
 
         jLabel3.setText("SleepTime(ms)");
 
@@ -114,37 +123,68 @@ public class MainView extends javax.swing.JFrame {
             }
         });
 
+        CBSortChoice1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(InitializeButton)
+                    .addComponent(StartSortButton))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
+                .addGap(17, 17, 17)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(MaxValueSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(LengthSpinner)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SleepTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(CBSortChoice1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(valueOption))
+                .addContainerGap(363, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InitializeButton)
+                    .addComponent(jLabel1)
+                    .addComponent(LengthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(SleepTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CBSortChoice1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(StartSortButton)
+                    .addComponent(jLabel2)
+                    .addComponent(MaxValueSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(valueOption))
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(sortView1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(98, 98, 98)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(InitializeButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(StartSortButton)
-                                .addGap(51, 51, 51)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(MaxValueSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(LengthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SleepTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(valueOption)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(sortView1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -152,19 +192,8 @@ public class MainView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(sortView1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(LengthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3)
-                    .addComponent(SleepTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(valueOption))
-                .addGap(2, 2, 2)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(InitializeButton)
-                    .addComponent(StartSortButton)
-                    .addComponent(MaxValueSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32))
         );
 
@@ -172,7 +201,7 @@ public class MainView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void StartSortButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StartSortButtonMouseClicked
-        _control.StartSort();
+        _control.StartSort((String)CBSortChoice1.getSelectedItem());
     }//GEN-LAST:event_StartSortButtonMouseClicked
 
     private void InitializeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InitializeButtonActionPerformed
@@ -195,12 +224,11 @@ public class MainView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_valueOptionActionPerformed
 
-    private void Initialize()
-    {
+    private void Initialize() {
         _control.SetSleepTime((Integer) SleepTimeSpinner.getValue());
         _control.RandomizeArray((Integer) LengthSpinner.getValue(), (Integer) MaxValueSpinner.getValue());
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -231,6 +259,7 @@ public class MainView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox CBSortChoice1;
     private javax.swing.JButton InitializeButton;
     private javax.swing.JSpinner LengthSpinner;
     private javax.swing.JSpinner MaxValueSpinner;
@@ -239,6 +268,7 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     public View.sortView sortView1;
     private javax.swing.JCheckBox valueOption;
     // End of variables declaration//GEN-END:variables

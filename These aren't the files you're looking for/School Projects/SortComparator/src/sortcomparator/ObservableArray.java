@@ -31,27 +31,56 @@ public class ObservableArray implements IObservable {
     int lastExchangeA, lastExchangeB;
     int lastCompareA, lastCompareB;
     int lastPlace;
+    
+    boolean isGraphicSimulation = true;
 
-    public ObservableArray(int arraySize, int maxRandom) {
-        Randomize(arraySize, maxRandom);
+    public ObservableArray(int arraySize, int maxRandom) 
+    {
+        setRandomData(arraySize, maxRandom);
+        randomize();
     }
 
     public ObservableArray() {
     }
+    
+    int _arraySize;
+    double _maxRandom;
+    
+    public void setRandomData(int arraySize, double maxRandom)
+    {
+        _arraySize = arraySize;
+        _maxRandom = maxRandom;
+        Tab = new Double[arraySize];
+        length = Tab.length;
+        
+    }
 
-    public void Randomize(int arraySize, double maxRandom) 
+    public void randomize() 
     {
         Random rand = new Random();
 
-        Tab = new Double[arraySize];
         for (int i = 0; i < Tab.length; i++) {
-            Tab[i] = rand.nextDouble() * maxRandom;
+            Tab[i] = Math.ceil(rand.nextDouble() * _maxRandom);
         }
-        length = Tab.length;
-
+        // Todo change this!
         for (SortListener sl : subscribers) {
-            sl.SetObservableArray(this, maxRandom);
+            sl.SetObservableArray(this, _maxRandom);
         }
+
+    }
+    
+    public boolean isSort()
+    {
+        boolean isSorted = true;
+        for(int i = 0; i< Tab.length-1 && isSorted; i++)
+        {
+            if(!Less(i, i+1))
+            {
+                isSorted = false;
+            }
+        }
+        
+        return isSorted;
     }
 
     private void resetColor() {
@@ -63,33 +92,61 @@ public class ObservableArray implements IObservable {
     }
 
     public Boolean Less(int indexA, int indexB) {
-        resetColor();
-        lastCompareA = indexA;
-        lastCompareB = indexB;
-
-        notifyListner();
+        if(isGraphicSimulation)
+        {
+            resetColor();
+            lastCompareA = indexA;
+            lastCompareB = indexB;
+            notifyListner();
+        }
+        
         return Tab[indexA].compareTo(Tab[indexB]) < 0;
     }
+    
+    public int Compare(int indexA, int indexB) {
+        if(isGraphicSimulation)
+        {
+            resetColor();
+            lastCompareA = indexA;
+            lastCompareB = indexB;
+            notifyListner();
+        }
+        
+        return Tab[indexA].compareTo(Tab[indexB]);
+    }
 
-    public void Exchange(int indexA, int indexB) {
-        resetColor();
-        lastExchangeA = indexA;
-        lastExchangeB = indexB;
+
+    public void exchange(int indexA, int indexB) {
+        if(isGraphicSimulation)
+        {
+            resetColor();
+            lastExchangeA = indexA;
+            lastExchangeB = indexB;
+        }
 
         Double temp = Tab[indexA];
         Tab[indexA] = Tab[indexB];
         Tab[indexB] = temp;
-
-        notifyListner();
+        
+        if(isGraphicSimulation )
+        {
+            notifyListner();
+        }
     }
 
-    public void Place(int index, Double value) {
-        resetColor();
-        lastPlace = index;
+    public void place(int index, Double value) {
+        if(isGraphicSimulation)
+        {
+            resetColor();
+            lastPlace = index;
+        }
 
         Tab[index] = value;
-
-        notifyListner();
+        
+        if(isGraphicSimulation)
+        {
+            notifyListner();
+        }
     }
 
     @Override

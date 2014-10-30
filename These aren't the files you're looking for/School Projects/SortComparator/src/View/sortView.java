@@ -33,7 +33,6 @@ public class sortView extends javax.swing.JPanel implements SortListener{
     public void paint(Graphics g)
     {
         super.paintComponent(g);
-        System.out.println("Refresh");
         if(_tab != null)
         {
             for(int index = 0; index < _tab.length ; index++)
@@ -58,14 +57,13 @@ public class sortView extends javax.swing.JPanel implements SortListener{
     {
         _tab = tab;
         initSortVisual(maxValue, _tab.length);
-        System.out.println("SetObservable");
         this.repaint();
     }
 
     @Override
     public void UpdateArray() {
-        System.out.println("UpdateArray");
-        this.paintImmediately(0,0, this.getWidth(), this.getHeight());
+        this.repaint();
+       // this.paintImmediately(0,0, this.getWidth(), this.getHeight());
     }
     
 

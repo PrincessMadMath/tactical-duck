@@ -5,57 +5,116 @@
  */
 package sortcomparator;
 
+import Interface.ISort;
 import Interface.SortListener;
+import SortAlgorithm.BongoSort;
+import SortAlgorithm.InsertionSort;
 import SortAlgorithm.MergeSort;
-import View.BackupView;
+import SortAlgorithm.QuickSort;
+import SortAlgorithm.SelectionSort;
+import SortAlgorithm.ShellSort;
 import View.MainView;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Mathieu
  */
 public class SortComparator {
-    
-    ObservableArray _tab;
+
+    List<ISort> sortList;
+
+    ObservableArray _observableArray;
     SortListener listener;
-    
+
+    ISort sortStrategy;
+    SortThread thread;
+
     int _arrayLenght = 100;
-    double _maxValue = 50.0; 
+    double _maxValue = 50.0;
 
-    public SortComparator(MainView view)
-    {
-        listener = view.sortView1;
-        _tab = new ObservableArray();
+    public SortComparator() {
+        _observableArray = new ObservableArray();
+        thread = new SortThread(this);
+        sortList = new ArrayList<>();
+        initSortList();
+    }
 
-        _tab.subsribe(listener);
+    private void initSortList() {
+        sortList.add(SelectionSort.Instance());
+        sortList.add(InsertionSort.Instance());
+        sortList.add(ShellSort.Instance());
+        sortList.add(MergeSort.Instance());
+        sortList.add(QuickSort.Instance());
+        sortList.add(BongoSort.Instance());
     }
-    
-    public SortComparator(BackupView view)
-    {
-        listener = view.sortView1;
-        _tab = new ObservableArray();
 
-        _tab.subsribe(listener);
+    public String[] getSortAlgorithmName() {
+        int size = sortList.size();
+        String[] list = new String[size];
+        for (int i = 0; i < size; i++) {
+            list[i] = sortList.get(i).getName();
+        }
+        return list;
     }
-    
-    
-  
-    public void InitializeArray(int length, double maxValue)
+
+    public void addSubscriber(SortListener listener) {
+        _observableArray.subsribe(listener);
+    }
+
+    public void InitializeArray(int length, double maxValue) {
+        _observableArray.setRandomData(length, maxValue);
+        _observableArray.randomize();
+    }
+
+    public void setSleepTime(int miliSeconds) {
+        _observableArray.setSleepTime(miliSeconds);
+    }
+
+    String _currentSort;
+
+    public void setupSimulation(String sortName) 
     {
-        System.out.println(length);
-        _tab.Randomize(length, maxValue);
+        _currentSort = sortName;
+        nbOfSimulationDone = 0;
+        average = 0;
+        startSimulation();
     }
-    
-    public void setSleepTime(int miliSeconds)
-    {
-        _tab.setSleepTime(miliSeconds);
+
+    public void startSimulation() {
+        thread.StartSort(getSort(_currentSort), _observableArray);
     }
-    
-    public void StartSort()
-    {
-        System.out.println("Starting Sort!!!!");
-        MergeSort.Sort(_tab, 0, _tab.Tab.length-1);
-        //InsertionSort.Sort(tab);
+
+    int nbOfSimulationWanted = 20;
+    int nbOfSimulationDone = 0;
+    long average;
+
+    public void onSortEnded(long time) {
+        System.out.println("----------------------------");
+        System.out.println("Last result: " + time + "ms");
+        nbOfSimulationDone++;
+        if (nbOfSimulationDone == 1) {
+            average = time;
+        } else {
+            average = (average * (nbOfSimulationDone - 1) + time) / (nbOfSimulationDone);
+        }
+        System.out.println("Average: " + average + "ms");
+
+        if (nbOfSimulationDone < nbOfSimulationWanted) {
+            _observableArray.randomize();
+            startSimulation();
+        }
+
     }
-    
+
+    public ISort getSort(String name) {
+        for (ISort sort : sortList) {
+            if (name.compareTo(sort.getName()) == 0) {
+                return sort;
+            }
+        }
+        return null;
+    }
+
 }
